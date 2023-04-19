@@ -1,9 +1,12 @@
 version: "3.9"
 services:
   Jenkins:
-    build: Jenkins/Dockerfile
-        ports:
-            - "8080:8080"
+    image: test-jenkins
+    build:
+      context: Jenkins
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
 
 ###################################
 #			ADD FILE .ENV		  #
