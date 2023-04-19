@@ -6,7 +6,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: acces jenkins folder
-      run: cd jenkins
+      run: cd Jenkins
     - name: Build a Docker image
       run: docker-compose up --build
     - name: Run Snyk to check Docker image for vulnerabilities
