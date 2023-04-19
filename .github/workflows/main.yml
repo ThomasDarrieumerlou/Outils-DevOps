@@ -7,6 +7,8 @@ jobs:
     - uses: actions/checkout@v2
     - name: acces jenkins folder
       run: cd Jenkins
+    - name: check folder
+      run: ls -a
     - name: Build a Docker image
       run: docker-compose up --build
     - name: Run Snyk to check Docker image for vulnerabilities
