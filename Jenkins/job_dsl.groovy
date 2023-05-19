@@ -13,32 +13,31 @@ pipelineJob('Example Job') {
 		cps {
 			script('''
 				pipeline {
-					agent any {
-						stages {
-							stage('Checkout') {
-								steps {
-									script {
-										checkout([$class: 'GitSCM', branches: [[name: '${NAME_BRANCH}']], gitTool: 'Default', userRemoteConfigs: [[url: '${NAME_REPO}']]])
-									}
-								}
-							}
-							stage('Test') {
-								steps {
-									sh 'echo "Hello-World"'
-								}
-							}
-							stage('Download')
-								steps {
-									sh 'apt-get install zip'
-									sh 'zip RELEASE_${RELEASE}.zip ./*
+					agent any
+					stages {
+						stage('Checkout') {
+							steps {
+								script {
+									checkout([$class: 'GitSCM', branches: [[name: '${NAME_BRANCH}']], gitTool: 'Default', userRemoteConfigs: [[url: '${NAME_REPO}']]])
 								}
 							}
 						}
-						post {
-							always {
-								archiveArtifacts artifacts: '**/*.zip', onlyIfSuccessful: true
-								junit(testResults: 'target/surefire-reports/*.xml', allowEmptyResults : true)
+						stage('Test') {
+							steps {
+								sh 'echo "Hello-World"'
 							}
+						}
+						stage('Download') {
+							steps {
+								sh 'apt-get install zip'
+								sh 'zip RELEASE_${RELEASE}.zip ./* '
+							}
+						}
+					}
+					post {
+						always {
+							archiveArtifacts artifacts: '**/*.zip', onlyIfSuccessful: true
+							junit(testResults: 'target/surefire-reports/*.xml', allowEmptyResults : true)
 						}
 					}
 				}
